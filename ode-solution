@@ -1,0 +1,130 @@
+import matplotlib.pyplot as mp
+import numpy as np
+import scipy as sci
+from math import *
+
+
+G = 6.67e-11
+M = 1.989e30
+m = 5.972e24
+r1 = 1.5e11
+omega1 = np.sqrt(G*M/r1)/r1
+k = -1e60
+L = m * (r1**2) * omega1
+
+
+def upp1(theta, u, up):
+    upp1 = -u-(k*m)/(L**2)   # differential equation
+    return upp1
+
+
+theta1 = 0
+u1 = 1.5e11
+up1 = 2.9739e4
+
+dtheta1 = 0.1
+
+thetapoints1 = []
+upoints1 = []
+uppoints1 = []
+thetapoints1.append(theta1)
+upoints1.append(u1)
+uppoints1.append(up1)
+
+while theta1 <= 2*pi:
+    u1 = u1 + up1 * dtheta1
+    up1 = up1 + upp1(theta1, u1, up1) * dtheta1
+    # y=y+yp*dx # use this for Euler-Cromer method
+    theta1 = theta1 + dtheta1
+    thetapoints1.append(theta1)
+    upoints1.append(u1)
+    uppoints1.append(up1)
+
+
+def upp2(theta, u, up):
+    upp2 = -u-(k*m)/(L**2)   # differential equation
+    return upp2
+
+
+theta2 = 0
+u2 = 5.5e11
+up2 = 2.9739e4
+
+dtheta2 = 0.1
+
+thetapoints2 = []
+upoints2 = []
+uppoints2 = []
+
+thetapoints2.append(theta2)
+upoints2.append(u2)
+uppoints2.append(up2)
+
+while theta2 <= 2*pi:
+    u2 = u2 + up2 * dtheta2
+    up2 = up2 + upp2(theta2, u2, up2) * dtheta2
+    # y=y+yp*dx # use this for Euler-Cromer method
+    theta2 = theta2 + dtheta2
+    thetapoints2.append(theta2)
+    upoints2.append(u2)
+    uppoints2.append(up2)
+
+
+def upp3(theta, u, up):
+    upp3 = -u-(k*m)/(L**2)   # differential equation
+    return upp3
+
+
+theta3 = 0
+u3 = 9.5e11
+up3 = 2.9739e4
+
+dtheta3 = 0.1
+
+thetapoints3 = []
+upoints3 = []
+uppoints3 = []
+
+thetapoints3.append(theta3)
+upoints3.append(u3)
+uppoints3.append(up3)
+
+while theta3 <= 2*pi:
+    u3 = u3 + up3 * dtheta3
+    up3 = up3 + upp3(theta2, u2, up2) * dtheta3
+    # y=y+yp*dx # use this for Euler-Cromer method
+    theta3 = theta3 + dtheta3
+    thetapoints3.append(theta3)
+    upoints3.append(u3)
+    uppoints3.append(up3)
+
+
+def f(x):
+    f = ((-k * m)/(L**2)) * (1 + np.cos(x))   # analytical solution
+    return f
+
+
+x = np.linspace(0, 2*pi, 100)
+
+fig, axs = mp.subplots(2, 2)
+axs[0, 0].plot(thetapoints1, upoints1)
+axs[0, 0].plot(thetapoints2, upoints2, 'tab:orange')
+axs[0, 0].plot(thetapoints3, upoints3, 'tab:green')
+axs[0, 0].set_title('Angle vs Position')
+axs[0, 1].plot(thetapoints1, uppoints1)
+axs[0, 1].plot(thetapoints2, uppoints2, 'tab:orange')
+axs[0, 1].plot(thetapoints3, uppoints3, 'tab:green')
+axs[0, 1].set_title('Angle vs Velocity')
+axs[1, 0].plot(upoints1, uppoints1)
+axs[1, 0].plot(upoints2, uppoints2, 'tab:orange')
+axs[1,0].plot(upoints3, uppoints3, 'tab:green')
+axs[1, 0].set_title('Position vs Velocity')
+axs[1, 1].plot(x, f(x))
+axs[1, 1].set_title('Analytic Soln.')
+
+
+# Hide x labels and tick labels for top plots and y ticks for right plots.
+for ax in axs.flat:
+    ax.label_outer()
+
+mp.show()
