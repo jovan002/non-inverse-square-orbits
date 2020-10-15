@@ -1,0 +1,141 @@
+from math import *
+import matplotlib.pyplot as mp
+import numpy as np
+
+
+#   Fg=GMm/(r**2)
+G = 6.67e-11   # Gravitational Constant
+M = 1.989e30   # Mass of Sun
+m = 5.972e24   # Mass of Earth
+R = 1.5e11     # Distance from Sun to Earth
+mu = G*M
+
+omega = np.sqrt(G*M/R)/R   # Angular Velocity of Earth
+L = m*R**2*omega           # Angular Momentum of Earth
+a = 100000
+h = L/m
+s = h**2/mu
+lbda = a*mu/h**3
+
+
+#                                 CIRCULAR ORBIT
+
+def dyx1(x, y, yp):
+    dyx1 = 0
+    return dyx1
+
+
+def dzx1(x, y, yp):
+    dzx1 = mu/h**2 - y   # Inverse Square
+    return dzx1
+
+
+x1 = 0
+y1 = 0
+yp1 = 1/2
+xmax = 2*pi
+dx = 0.01
+xpoints1 = []
+ypoints1 = []
+yppoints1 = []
+
+while x1 <= xmax:
+    k1 = yp1*dx
+    l1 = dzx1(x1, y1, yp1)*dx
+    k2 = (yp1 + 0.5 * l1) * dx
+    l2 = dzx1(x1 + .5 * dx, y1 + 0.5 * k1, yp1 + 0.5 * l1) * dx
+    k3 = (yp1 + 0.5 * l2) * dx
+    l3 = dzx1(x1 + 0.5 * dx, y1 + 0.5 * k2, yp1 + 0.5 * l2) * dx
+    k4 = (yp1 + l3)*dx
+    l4 = dzx1(x1 + dx, y1 + k3, yp1 + l3)*dx
+    x1 += dx
+    y1 = y1 + (1/6)*(k1 + 2*k2 + 2*k3 + k4)
+    yp1 = yp1 + (1/6)*(l1 + 2*l2 + 2*l3 + l4)
+    xpoints1.append(x1)
+    ypoints1.append(y1)
+    yppoints1.append(yp1)
+
+
+def dyx(x, y, yp):
+    dyx = 0
+    return dyx
+
+
+def dzx(x, y, yp):
+    dzx = mu*y**2/h**2 - y**3   # Non-Inverse Square
+    return dzx
+
+
+x = 0
+y = 0
+yp = 1/2
+xpoints = []
+ypoints = []
+yppoints = []
+
+while x <= xmax:
+    k1 = yp*dx
+    l1 = dzx(x, y, yp)*dx
+    k2 = (yp + 0.5 * l1) * dx
+    l2 = dzx(x + .5 * dx, y + 0.5 * k1, yp + 0.5 * l1) * dx
+    k3 = (yp + 0.5 * l2) * dx
+    l3 = dzx(x + 0.5 * dx, y + 0.5 * k2, yp + 0.5 * l2) * dx
+    k4 = (yp + l3)*dx
+    l4 = dzx(x + dx, y + k3, yp + l3)*dx
+    x += dx
+    y = y + (1/6)*(k1 + 2*k2 + 2*k3 + k4)
+    yp = yp + (1/6)*(l1 + 2*l2 + 2*l3 + l4)
+    xpoints.append(x)
+    ypoints.append(y)
+    yppoints.append(yp)
+
+
+def dyx2(x, y, yp):
+    dyx2 = 0
+    return dyx2
+
+
+def dzx2(x, y, yp):
+    dzx2 = mu*y/h**2 - y**2   # Non-Inverse Square
+    return dzx2
+
+
+x2 = 0
+y2 = 0
+yp2 = 1/2
+xpoints2 = []
+ypoints2 = []
+yppoints2 = []
+
+while x2 <= xmax:
+    k1 = yp2*dx
+    l1 = dzx2(x2, y2, yp2)*dx
+    k2 = (yp2 + 0.5 * l1) * dx
+    l2 = dzx2(x2 + .5 * dx, y2 + 0.5 * k1, yp2 + 0.5 * l1) * dx
+    k3 = (yp2 + 0.5 * l2) * dx
+    l3 = dzx2(x2 + 0.5 * dx, y2 + 0.5 * k2, yp2 + 0.5 * l2) * dx
+    k4 = (yp2 + l3)*dx
+    l4 = dzx2(x2 + dx, y2 + k3, yp2 + l3)*dx
+    x2 += dx
+    y2 = y2 + (1/6)*(k1 + 2*k2 + 2*k3 + k4)
+    yp2 = yp2 + (1/6)*(l1 + 2*l2 + 2*l3 + l4)
+    xpoints2.append(x2)
+    ypoints2.append(y2)
+    yppoints2.append(yp2)
+
+
+fig, axs = mp.subplots(2, 2)
+axs[0, 0].plot(xpoints, ypoints)
+axs[0, 0].plot(xpoints1, ypoints1)
+axs[0, 0].plot(xpoints2, ypoints2)
+axs[0, 0].set_title("Angle vs. Pos.")
+axs[0, 1].plot(xpoints, yppoints)
+axs[0, 1].plot(xpoints1, yppoints1)
+axs[0, 1].plot(xpoints2, yppoints2)
+axs[0, 1].set_title("Angle vs. Vel.")
+axs[1, 0].plot(ypoints, yppoints)
+axs[1, 0].plot(ypoints1, yppoints1)
+axs[1, 0].plot(ypoints2, yppoints2)
+axs[1, 0].set_title("Pos. vs. Vel.")
+
+mp.show()
