@@ -59,17 +59,21 @@ G4 = (Mars.m * Mars.omega**2) / (Sun.m * Mars.m)   # Gravitational Constant for 
 G5 = (Jupiter.m * mag(rJ)**5 * Jupiter.omega**2) / (Sun.m * Jupiter.m)   # Gravitational Constant for Jupiter
 
 dt = 1200  # Time Step (Use dt = 120 for detailed behavior of inner planets, Use dt = 1200 for behavior of Jupiter)
+
+# Redundant stuff which I am afraid to remove due to irrational fear of breaking the entire thing
 time = 517425600
 thetas = 4*np.pi
 
-Earth_phase_space = graph(title='Earth Phase Diagram', xtitle='Position', ytitle='Velocity', fast=True)
-Earth_phase_space_curve = gcurve(graph=Earth_phase_space, color=color.blue, size=0.1)
+
+# Define Phase Space Diagrams:
+Mercury_phase_space = graph(title='Earth Phase Diagram', xtitle='Position', ytitle='Velocity', fast=True)
+Mercury_phase_space_curve = gcurve(graph=Mercury_phase_space, color=color.green, size=0.1)
 
 Venus_phase_space = graph(title='Earth Phase Diagram', xtitle='Position', ytitle='Velocity', fast=True)
 Venus_phase_space_curve = gcurve(graph=Venus_phase_space, color=color.orange, size=0.1)
 
-Mercury_phase_space = graph(title='Earth Phase Diagram', xtitle='Position', ytitle='Velocity', fast=True)
-Mercury_phase_space_curve = gcurve(graph=Mercury_phase_space, color=color.green, size=0.1)
+Earth_phase_space = graph(title='Earth Phase Diagram', xtitle='Position', ytitle='Velocity', fast=True)
+Earth_phase_space_curve = gcurve(graph=Earth_phase_space, color=color.blue, size=0.1)
 
 Mars_phase_space = graph(title='Earth Phase Diagram', xtitle='Position', ytitle='Velocity', fast=True)
 Mars_phase_space_curve = gcurve(graph=Mars_phase_space, color=color.red, size=0.1)
@@ -79,10 +83,11 @@ Jupiter_phase_space_curve = gcurve(graph=Jupiter_phase_space, color=color.purple
 
 #time = 0
 while True:
-
-    Earth_phase_space_curve.plot(pos=(Earth.pos.x, np.sqrt(Earth.v.x ** 2 + Earth.v.y ** 2)))
-    Venus_phase_space_curve.plot(pos=(Venus.pos.x, np.sqrt(Venus.v.x ** 2 + Venus.v.y ** 2)))
+    
+    # Phase Space Diagrams (Comment this out if your computer begins smoking)
     Mercury_phase_space_curve.plot(pos=(Mercury.pos.x, np.sqrt(Mercury.v.x ** 2 + Mercury.v.y ** 2)))
+    Venus_phase_space_curve.plot(pos=(Venus.pos.x, np.sqrt(Venus.v.x ** 2 + Venus.v.y ** 2))
+    Earth_phase_space_curve.plot(pos=(Earth.pos.x, np.sqrt(Earth.v.x ** 2 + Earth.v.y ** 2)))
     Mars_phase_space_curve.plot(pos=(Mars.pos.x, np.sqrt(Mars.v.x ** 2 + Mars.v.y ** 2)))
     Jupiter_phase_space_curve.plot(pos=(Jupiter.pos.x, np.sqrt(Jupiter.v.x ** 2 + Jupiter.v.y ** 2)))
 
